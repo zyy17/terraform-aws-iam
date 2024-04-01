@@ -22,8 +22,7 @@ variable "users" {
     name = string
 
     # The name of the group to which the user belongs.
-    # TODO(zyy17): can we use list(string) here? The user can belong to multiple groups.
-    group = optional(string)
+    groups = optional(list(string))
 
     # The existing policy ARN to attach to the user.
     # TODO(zyy17): can we use list(string) here?

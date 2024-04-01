@@ -13,21 +13,22 @@ module "iam" {
       policy_arn             = ""
       additional_policy_json = "additional-policies/groups/dev/policy.json",
     },
+    {
+      name                   = "ec2-developer",
+      policy_arn             = "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+      additional_policy_json = "",
+    }
   ]
 
   # Create IAM users.
   users = [
     {
-      name                   = "alice",
-      group                  = "dev",
-      policy_arn             = ""
-      additional_policy_json = "additional-policies/users/alice/policy.json",
+      name   = "alice",
+      groups = ["dev", "ec2-developer"],
     },
     {
-      name                   = "bob",
-      group                  = "admin",
-      policy_arn             = "arn:aws:iam::aws:policy/AmazonAppFlowFullAccess"
-      additional_policy_json = "additional-policies/users/bob/policy.json",
+      name   = "bob",
+      groups = ["admin"],
     },
   ]
 }

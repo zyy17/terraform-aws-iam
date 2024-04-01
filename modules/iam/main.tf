@@ -43,13 +43,12 @@ resource "aws_iam_user" "user" {
   name = each.value.name
 }
 
-# Each user is a member of a group.
-resource "aws_iam_group_membership" "group_membership" {
+# Each user is a member of one or more groups.
+resource "aws_iam_user_group_membership" "group_membership" {
   for_each = { for u in var.users : u.name => u }
 
-  name  = "${each.value.name}-group-membership"
-  users = [each.value.name]
-  group = each.value.group
+  user   = each.value.name
+  groups = each.value.groups
 
   depends_on = [
     aws_iam_user.user,
