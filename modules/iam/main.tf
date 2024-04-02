@@ -1,3 +1,15 @@
+locals {
+  groups = flatten([
+    for _, group in var.groups : [
+      for _, policy_arn in(group.policy_arns != null ? group.policy_arns : []) : {
+        name                   = group.name
+        policy_arn             = policy_arn
+        additional_policy_json = group.additional_policy_json
+      }
+    ]
+  ])
+}
+
 # Create IAM group.
 resource "aws_iam_group" "group" {
   for_each = { for group in var.groups : group.name => group }
@@ -8,7 +20,7 @@ resource "aws_iam_group" "group" {
 # Attach the existing policy to the group.
 resource "aws_iam_group_policy_attachment" "group_policy_attachment" {
   for_each = {
-    for group in var.groups : group.name => group if group.policy_arn != null && group.policy_arn != ""
+    for group in local.groups : "${group.name}-${group.policy_arn}" => group
   }
 
   group      = each.value.name

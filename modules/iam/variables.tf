@@ -5,8 +5,7 @@ variable "groups" {
     name = string
 
     # The existing policy ARN to attach to the group.
-    # TODO(zyy17): can we use list(string) here?
-    policy_arn = optional(string)
+    policy_arns = optional(list(string))
 
     # The file path to the additional policy JSON to attach to the group.
     # TODO(zyy17): can we use list(string) here? For example, if we want to attach multiple policies to a group.

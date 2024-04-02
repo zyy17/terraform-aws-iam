@@ -5,18 +5,20 @@ module "iam" {
   groups = [
     {
       name                   = "admin",
-      policy_arn             = "arn:aws:iam::aws:policy/AdministratorAccess"
+      policy_arns            = ["arn:aws:iam::aws:policy/AdministratorAccess"]
       additional_policy_json = "additional-policies/groups/admin/policy.json",
     },
     {
-      name                   = "dev",
-      policy_arn             = ""
+      name = "dev",
+      policy_arns = [
+        "arn:aws:iam::aws:policy/AmazonAppFlowFullAccess",
+        "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+      ],
       additional_policy_json = "additional-policies/groups/dev/policy.json",
     },
     {
-      name                   = "ec2-developer",
-      policy_arn             = "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
-      additional_policy_json = "",
+      name        = "ec2-developer",
+      policy_arns = ["arn:aws:iam::aws:policy/AmazonEC2FullAccess"],
     }
   ]
 
